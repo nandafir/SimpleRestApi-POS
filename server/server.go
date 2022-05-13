@@ -13,7 +13,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"anaconda/config"
-	"anaconda/product"
+	"anaconda/master"
 )
 
 // Start start the server
@@ -23,8 +23,8 @@ func Start() error {
 	router.Use(gin.Recovery())
 
 	config := config.Get()
-	productService := product.NewService()
-	product.Register(router, productService)
+	masterService := master.NewService()
+	master.Register(router, masterService)
 
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", config.Port),

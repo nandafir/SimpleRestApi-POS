@@ -4,6 +4,7 @@ import (
 	"anaconda/config"
 	"fmt"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	log "github.com/sirupsen/logrus"
 )
@@ -11,8 +12,9 @@ import (
 // New ...
 func New() *sqlx.DB {
 	config := config.Get()
-	dsn := fmt.Sprintf("postgres://%s:%s@%s:%v/%s?sslmode=disable", config.DBUsername, config.DBPassword, config.DBHost, config.DBPort, config.DBName)
-	db, err := sqlx.Open("postgres", dsn)
+
+	dsn := fmt.Sprintf("%s:%s@(%s:%v)/%s", config.DBUsername, config.DBPassword, config.DBHost, config.DBPort, config.DBName)
+	db, err := sqlx.Open("mysql", dsn)
 	if err != nil {
 		log.Fatal("connection error!")
 	}
