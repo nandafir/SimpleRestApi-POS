@@ -14,8 +14,8 @@ func Register(router *gin.Engine, service *Service) {
 	item := v1.Group("/item")
 	{
 		item.POST("", handler.handlerAddItem)
-		item.GET("", handler.handlerGetItems)
+		item.GET("", handler.handlerGetItem)
+		item.DELETE(":id", handler.handlerSoftDeleteItem)
 	}
 
 }
-	

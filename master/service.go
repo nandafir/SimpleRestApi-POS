@@ -3,6 +3,7 @@ package master
 import (
 	"anaconda/database"
 	"anaconda/utils"
+	"fmt"
 )
 
 type Service struct {
@@ -44,4 +45,21 @@ func (s Service) GetItems() (ItemModels, error) {
 	}
 
 	return *res, nil
+}
+
+func (s Service) SoftDeleteItemByID(id int) error {
+
+	item, err := s.repository.GetItemByID(id)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("item : ", item)
+	err = s.repository.SoftDeleteItemByID(item.ItemID)
+	if err != nil {
+		utils.ErrorLog("SQL Error on softDeleteItem", err)
+		return err
+	}
+
+	return nil
 }
